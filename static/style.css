@@ -1,0 +1,19 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #f3f5f8; color: #1d2733; }
+.conteneur { max-width: 720px; margin: 0 auto; padding: 20px 16px 40px; }
+h1 { margin-bottom: 4px; }
+.sous-titre { color: #526070; margin-top: 0; }
+label { font-weight: bold; display: block; margin: 16px 0 6px; }
+textarea { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #b9c3cf; border-radius: 8px; resize: vertical; }
+.exemples { margin: 10px 0 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px; }
+.exemple { background: #fff; border: 1px solid #b9c3cf; border-radius: 16px; padding: 6px 12px; cursor: pointer; }
+#bouton { width: 100%; padding: 14px; font-size: 17px; font-weight: bold; color: #fff; background: #1f4e79; border: 0; border-radius: 8px; cursor: pointer; }
+#bouton:disabled { background: #7a8da1; cursor: wait; }
+#resultat { background: #fff; border-radius: 10px; padding: 18px; margin-top: 22px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+.verdict { margin: 0 0 10px; padding: 10px 14px; border-radius: 8px; color: #fff; font-size: 20px; }
+.verdict.eleve { background: #c0392b; }
+.verdict.verifier { background: #d68910; }
+.verdict.neutre { background: #566573; }
+.infos { padding-left: 18px; color: #3b4a5a; }
+.erreur { color: #c0392b; font-weight: bold; }
+.avertissement, .limites { font-size: 13px; color: #6b7785; margin-top: 16px; }
