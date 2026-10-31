@@ -28,6 +28,12 @@ function afficher(r) {
   zone.replaceChildren();
   zone.hidden = false;
 
+  if (r.ok && r.mode === "apprentissage") {
+    zone.appendChild(el("h2", "verdict neutre", r.titre));
+    zone.appendChild(el("p", "texte-cours", r.texte));
+    return;
+  }
+
   if (!r.ok) {
     zone.appendChild(el("p", "erreur", r.erreur || "Une erreur est survenue."));
     return;
@@ -35,6 +41,7 @@ function afficher(r) {
 
   zone.appendChild(el("h2", "verdict " + classeVerdict(r.verdict), r.verdict));
   zone.appendChild(el("p", "", r.resume));
+
   if (r.texte_lu) {
     zone.appendChild(el("p", "infos", "Texte lu sur l'image (vérifie qu'il est correct) : " + r.texte_lu));
   }
@@ -81,10 +88,9 @@ formulaire.addEventListener("submit", async (e) => {
   bouton.textContent = "Analyse en cours...";
   try {
     const donnees = new FormData();
+    donnees.append("sms", champ.value);
     if (fichier.files.length) {
       donnees.append("image", fichier.files[0]);
-    } else {
-      donnees.append("sms", champ.value);
     }
     const rep = await fetch("/analyser", { method: "POST", body: donnees });
     afficher(await rep.json());
@@ -94,4 +100,4 @@ formulaire.addEventListener("submit", async (e) => {
     bouton.disabled = false;
     bouton.textContent = "Analyser";
   }
-});
+})
