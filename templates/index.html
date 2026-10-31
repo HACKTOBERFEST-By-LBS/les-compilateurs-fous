@@ -13,7 +13,7 @@
 
     <form id="formulaire">
       <label for="sms">Texte du SMS</label>
-      <textarea id="sms" rows="6" maxlength="1000" placeholder="Colle le SMS ici..." required></textarea>
+      <textarea id="sms" rows="6" maxlength="1000" placeholder="Colle le SMS ici..." ></textarea>
 
       <div class="exemples">
         <span>Exemples fictifs :</span>
@@ -21,6 +21,8 @@
         <button type="button" class="exemple" data-sms="FELICITATIONS ! Vous avez gagné 500000 FCFA au grand concours. Envoyez votre code secret et 5000 FCFA de frais pour recevoir votre gain: http://gain-moov.example">Faux gain</button>
         <button type="button" class="exemple" data-sms="Salut, on se voit demain à 18h au marché ? Apporte la liste.">Message banal</button>
       </div>
+      <label for="image">Ou envoie une capture d'écran du SMS</label>
+      <input type="file" id="image" accept="image/png,image/jpeg,image/webp">
 
       <button type="submit" id="bouton">Analyser</button>
     </form>

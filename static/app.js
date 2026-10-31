@@ -2,6 +2,7 @@ const formulaire = document.getElementById("formulaire");
 const champ = document.getElementById("sms");
 const bouton = document.getElementById("bouton");
 const zone = document.getElementById("resultat");
+const fichier = document.getElementById("image");
 
 document.querySelectorAll(".exemple").forEach((b) => {
   b.addEventListener("click", () => {
@@ -34,6 +35,9 @@ function afficher(r) {
 
   zone.appendChild(el("h2", "verdict " + classeVerdict(r.verdict), r.verdict));
   zone.appendChild(el("p", "", r.resume));
+  if (r.texte_lu) {
+    zone.appendChild(el("p", "infos", "Texte lu sur l'image (vérifie qu'il est correct) : " + r.texte_lu));
+  }
 
   const infos = el("ul", "infos");
   [
@@ -76,14 +80,16 @@ formulaire.addEventListener("submit", async (e) => {
   bouton.disabled = true;
   bouton.textContent = "Analyse en cours...";
   try {
-    const rep = await fetch("/analyser", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sms: champ.value }),
-    });
+    const donnees = new FormData();
+    if (fichier.files.length) {
+      donnees.append("image", fichier.files[0]);
+    } else {
+      donnees.append("sms", champ.value);
+    }
+    const rep = await fetch("/analyser", { method: "POST", body: donnees });
     afficher(await rep.json());
   } catch (err) {
-    afficher({ ok: false, erreur: "Impossible de contacter le serveur." });
+    afficher({ ok: false, erreur: "Impossible de contacter le serveur (image trop lourde ?)." });
   } finally {
     bouton.disabled = false;
     bouton.textContent = "Analyser";
