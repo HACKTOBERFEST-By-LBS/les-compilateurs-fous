@@ -84,20 +84,29 @@ function afficher(r) {
 
 formulaire.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const envoye = champ.value;
+  const estCommande = envoye.trim().startsWith("/");
   bouton.disabled = true;
   bouton.textContent = "Analyse en cours...";
   try {
     const donnees = new FormData();
-    donnees.append("sms", champ.value);
+    donnees.append("sms", envoye);
     if (fichier.files.length) {
       donnees.append("image", fichier.files[0]);
     }
     const rep = await fetch("/analyser", { method: "POST", body: donnees });
-    afficher(await rep.json());
+    const resultat = await rep.json();
+    afficher(resultat);
+    // Une commande réussie vide la zone de saisie : on peut taper la suivante tout de suite.
+    // (Si la commande a échoué, le texte reste pour pouvoir le corriger.)
+    if (estCommande && resultat.ok && champ.value === envoye) {
+      champ.value = "";
+      champ.focus();
+    }
   } catch (err) {
     afficher({ ok: false, erreur: "Impossible de contacter le serveur (image trop lourde ?)." });
   } finally {
     bouton.disabled = false;
     bouton.textContent = "Analyser";
   }
-})
+});
